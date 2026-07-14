@@ -22,6 +22,7 @@ spec:
 
           ports:
             - containerPort: 80
+              name: mysql
 
           envFrom:
             - secretRef:
