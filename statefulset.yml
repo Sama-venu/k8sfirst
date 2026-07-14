@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      app: app-database
+  template:
+    metadata: 
+      labels: 
+        app: app-database 
+    spec:
+      containers: 
+        - name: dbcont
+          image: venusama/k8s:dbimage
+          ports:
+            - containerPort: 80
+
+          envFrom:
+            - secretRef: 
+              name: bankapp-db-secret
+
+
+          resources: 
+            requests: 
+              cpu: "100m" 
+              memory: "128mi" 
+            limits: 
+              cpu: "200m" 
+              memory: "256mi"    
+
+
+          volumeMounts:
+            - name: mypvc
+              mountPath: /var/lib/mysql        
+      
